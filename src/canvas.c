@@ -2,18 +2,21 @@
 
 #include "canvas.h"
 
-GbrCanvas* gbr_create_canvas(const GbrCanvasOptions options) {
-  SDL_Init(SDL_INIT_VIDEO);
-  GbrCanvas* canvas = malloc(sizeof(GbrCanvas));
-  canvas->window = SDL_CreateWindow("Very Cool Software Renderer",
-                                    SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                    options.width, options.height, 0);
+Canvas* canvas_create(const int16_t width, const int16_t height) {
+  Canvas* canvas = malloc(sizeof(Canvas));
+  canvas->width = width;
+  canvas->height = height;
+  canvas->pitch = sizeof(Color) * width;
+  canvas->pixels = malloc(canvas->pitch * height);
 
   return canvas;
 }
 
-void gbr_destroy_canvas(GbrCanvas* canvas) {
-  SDL_DestroyWindow(canvas->window);
+void canvas_draw_pixel(const Canvas* canvas, const Color color, const Point point) {
+  *(canvas->pixels + point.x + point.y * canvas->width) = color;
+}
+
+void canvas_destroy(Canvas* canvas) {
+  free(canvas->pixels);
   free(canvas);
-  SDL_Quit();
 }

@@ -1,14 +1,26 @@
+#ifndef CANVAS_H
+#define CANVAS_H
+
 #include <inttypes.h>
-#include <SDL2/SDL.h>
+
+typedef int32_t Color;
+typedef unsigned char Byte;
 
 typedef struct {
-  const uint16_t width;
-  const uint16_t height;
-} GbrCanvasOptions;
+  uint16_t x, y;
+} Point;
 
 typedef struct {
-  SDL_Window* window;
-} GbrCanvas;
+  uint16_t width, height, pitch;
+  Color* pixels;
+} Canvas;
 
-GbrCanvas* gbr_create_canvas(const GbrCanvasOptions options);
-void gbr_destroy_canvas(GbrCanvas* canvas);
+Canvas* canvas_create(const int16_t width, const int16_t height);
+void canvas_draw_pixel(const Canvas* canvas, const Color color, const Point point);
+void canvas_destroy(Canvas* canvas);
+
+inline Color rgb(Byte r, Byte g, Byte b) {
+  return (r << 16) | (g << 8) | b;
+}
+
+#endif

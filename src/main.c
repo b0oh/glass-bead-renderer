@@ -1,31 +1,42 @@
 #include <stdbool.h>
 
+#include "screen.h"
 #include "canvas.h"
 #include "event.h"
 
-void main_loop() {
-  bool is_done = false;
-  GbrEvent e;
+static inline bool is_done() {
+  Event event;
 
-  while (!is_done) {
-    while (gbr_poll_event(&e)) {
-      if (e.type == GBR_EVENT_QUIT) {
-        is_done = true;
-      }
+  while (event_poll(&event)) {
+    if (event.type == EVENT_QUIT) {
+      return true;
     }
+  }
+
+  return false;
+}
+
+static inline void loop(const Screen* screen) {
+  for (int x = 0; x < 100; ++x) {
+    for (int y = 0; y < 100; ++y) {
+      Point p = {x, y};
+      canvas_draw_pixel(screen->canvas, rgb(255, 0, 255), p);
+    }
+  }
+
+  screen_present(screen);
+
+  if (!is_done()) {
+    loop(screen);
   }
 }
 
 int main() {
-  GbrCanvasOptions canvas_options = {
-    .width = 640,
-    .height = 480
-  };
-  GbrCanvas* canvas = gbr_create_canvas(canvas_options);
+  Screen* screen = screen_create(640, 480);
 
-  main_loop();
+  loop(screen);
 
-  gbr_destroy_canvas(canvas);
+  screen_destroy(screen);
 
   return 0;
 }
