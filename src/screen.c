@@ -5,8 +5,7 @@
 #include "screen.h"
 
 typedef struct {
-  uint16_t width, height;
-  Canvas* canvas;
+  Screen public;
   SDL_Window* window;
   SDL_Renderer* renderer;
   TTF_Font* font;
@@ -28,9 +27,9 @@ Screen* screen_create(int16_t width, int16_t height) {
   TTF_Init();
 
   ScreenPrivate* screen = malloc(sizeof(ScreenPrivate));
-  screen->width = width;
-  screen->height = height;
-  screen->canvas = canvas_create(width, height);
+  screen->public.width = width;
+  screen->public.height = height;
+  screen->public.canvas = canvas_create(width, height);
   screen->window = SDL_CreateWindow("Glass Bead Renderer",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
     width, height,
@@ -47,9 +46,9 @@ void screen_draw_canvas(const Screen* public_screen) {
   SDL_Texture * texture = SDL_CreateTexture(screen->renderer,
     SDL_PIXELFORMAT_ARGB8888,
     SDL_TEXTUREACCESS_STATIC,
-    screen->canvas->width,
-    screen->canvas->height);
-  SDL_UpdateTexture(texture, NULL, screen->canvas->pixels, screen->canvas->pitch);
+    screen->public.canvas->width,
+    screen->public.canvas->height);
+  SDL_UpdateTexture(texture, NULL, screen->public.canvas->pixels, screen->public.canvas->pitch);
   SDL_RenderCopy(screen->renderer, texture, NULL, NULL);
   SDL_DestroyTexture(texture);
 }
@@ -75,7 +74,7 @@ void screen_present(const Screen* screen) {
 void screen_destroy(Screen* public_screen) {
   ScreenPrivate* screen = (ScreenPrivate*) public_screen;
 
-  canvas_destroy(screen->canvas);
+  canvas_destroy(screen->public.canvas);
 
   TTF_CloseFont(screen->font);
   SDL_DestroyRenderer(screen->renderer);
