@@ -25,7 +25,7 @@ static inline const char* fps(uint32_t previous_ticks, uint32_t current_ticks) {
   return fps_buffer;
 }
 
-static inline uint32_t drawing_loop(const Screen* screen, uint32_t ticks) {
+static inline uint32_t drawing_loop(Screen* screen, uint32_t ticks) {
     for (int x = 300; x < 400; ++x) {
     for (int y = 300; y < 400; ++y) {
       canvas_draw_pixel(screen->canvas, rgb(255, 255, 0), (Point) {x, y});
@@ -48,7 +48,7 @@ static inline uint32_t drawing_loop(const Screen* screen, uint32_t ticks) {
   return new_ticks;
 }
 
-static inline void loop(const Screen* screen) {
+static inline void loop(Screen* screen) {
   uint32_t ticks = get_ticks();
 
   while (!is_done()) {

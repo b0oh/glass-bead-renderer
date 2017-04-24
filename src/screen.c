@@ -27,8 +27,6 @@ Screen* screen_create(int16_t width, int16_t height) {
   TTF_Init();
 
   ScreenPrivate* screen = malloc(sizeof(ScreenPrivate));
-  screen->public.width = width;
-  screen->public.height = height;
   screen->public.canvas = canvas_create(width, height);
   screen->window = SDL_CreateWindow("Glass Bead Renderer",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -37,10 +35,10 @@ Screen* screen_create(int16_t width, int16_t height) {
   screen->renderer = SDL_CreateRenderer(screen->window, -1, SDL_RENDERER_ACCELERATED);
   screen->font = TTF_OpenFont("pt-sans.ttf", default_font_size);
 
-  return (Screen*) screen;
+  return &screen->public;
 }
 
-void screen_draw_canvas(const Screen* public_screen) {
+void screen_draw_canvas(Screen* public_screen) {
   ScreenPrivate* screen = (ScreenPrivate*) public_screen;
 
   SDL_Texture * texture = SDL_CreateTexture(screen->renderer,
@@ -53,7 +51,7 @@ void screen_draw_canvas(const Screen* public_screen) {
   SDL_DestroyTexture(texture);
 }
 
-void screen_draw_text(const Screen* public_screen, const char* text, Color color, Point point) {
+void screen_draw_text(Screen* public_screen, const char* text, Color color, Point point) {
   ScreenPrivate* screen = (ScreenPrivate*) public_screen;
 
   SDL_Surface* surface = TTF_RenderText_Blended(screen->font, text, translate_color(color));
@@ -67,7 +65,7 @@ void screen_draw_text(const Screen* public_screen, const char* text, Color color
   SDL_FreeSurface(surface);
 }
 
-void screen_present(const Screen* screen) {
+void screen_present(Screen* screen) {
   SDL_RenderPresent(((ScreenPrivate*) screen)->renderer);
 }
 
