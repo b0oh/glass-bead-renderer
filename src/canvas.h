@@ -23,4 +23,8 @@ inline Color rgb(Byte r, Byte g, Byte b) {
   return (r << 16) | (g << 8) | b;
 }
 
+inline Color rgba(Byte r, Byte g, Byte b, Byte a) {
+  return (a << 24) | (r << 16) | (g << 8) | b;
+}
+
 #endif
