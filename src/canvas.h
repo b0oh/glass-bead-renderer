@@ -3,8 +3,8 @@
 
 #include <inttypes.h>
 
-typedef int32_t Color;
 typedef unsigned char Byte;
+typedef int32_t Color;
 
 typedef struct {
   uint16_t x, y;

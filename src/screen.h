@@ -2,17 +2,13 @@
 #define SCREEN_H
 
 #include <inttypes.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
 #include "canvas.h"
 
 typedef struct {
   uint16_t width, height;
   Canvas* canvas;
-  SDL_Window* window;
-  SDL_Renderer* renderer;
-  TTF_Font* font;
+  void* private;
 } Screen;
 
 Screen* screen_create(const int16_t width, const int16_t height);
