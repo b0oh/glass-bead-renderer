@@ -15,3 +15,7 @@ $(BUILD_DIR)/ticks.o: src/ticks.h src/ticks.c
 
 gbr: $(BUILD_DIR)/screen.o $(BUILD_DIR)/canvas.o $(BUILD_DIR)/ticks.o src/main.c
 	$(CC) -o $@ $^ $(COMPILER_FLAGS) $(LINKER_FLAGS)
+
+clean:
+	rm -rf $(BUILD_DIR)/*
+	rm gbr

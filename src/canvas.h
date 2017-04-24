@@ -17,6 +17,7 @@ typedef struct {
 
 Canvas* canvas_create(const int16_t width, const int16_t height);
 void canvas_draw_pixel(const Canvas* canvas, const Color color, const Point point);
+void canvas_draw_line(const Canvas* canvas, const Color color, const Point start, const Point end);
 void canvas_destroy(Canvas* canvas);
 
 inline Color rgb(Byte r, Byte g, Byte b) {

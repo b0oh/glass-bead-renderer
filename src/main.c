@@ -26,10 +26,16 @@ static inline const char* fps(uint32_t previous_ticks, uint32_t current_ticks) {
 }
 
 static inline void loop(const Screen* screen, uint32_t ticks) {
-  for (int x = 0; x < 100; ++x) {
-    for (int y = 0; y < 100; ++y) {
+  for (int x = 300; x < 400; ++x) {
+    for (int y = 300; y < 400; ++y) {
       canvas_draw_pixel(screen->canvas, rgb(255, 255, 0), (Point) {x, y});
     }
+  }
+
+  for (int i = 0; i < 256; ++ i) {
+    Point start = {i, 0};
+    Point end = {i + 20, screen->canvas->height - 1};
+    canvas_draw_line(screen->canvas, rgb(i, 255, i), start, end);
   }
 
   screen_draw_canvas(screen);
