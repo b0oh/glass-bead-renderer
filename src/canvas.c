@@ -2,7 +2,11 @@
 #include <stdlib.h>
 #include "canvas.h"
 
-Canvas* canvas_create(const int16_t width, const int16_t height) {
+static Color* pixel_offset(const Canvas* canvas, Point point) {
+  return canvas->pixels + point.y * canvas->width + point.x;
+}
+
+Canvas* canvas_create(int16_t width, int16_t height) {
   Canvas* canvas = malloc(sizeof(Canvas));
   canvas->width = width;
   canvas->height = height;
@@ -12,11 +16,12 @@ Canvas* canvas_create(const int16_t width, const int16_t height) {
   return canvas;
 }
 
-void canvas_draw_pixel(const Canvas* canvas, const Color color, const Point point) {
-  *(canvas->pixels + point.x + point.y * canvas->width) = color;
+void canvas_draw_pixel(const Canvas* canvas, Color color, Point point) {
+  Color* pixel = pixel_offset(canvas, point);
+  *pixel = color;
 }
 
-void canvas_draw_line(const Canvas* canvas, const Color color, const Point start, const Point end) {
+void canvas_draw_line(const Canvas* canvas, Color color, Point start, Point end) {
   int correction = 0,
     dx = end.x - start.x,
     dy = end.y - start.y,
@@ -36,36 +41,36 @@ void canvas_draw_line(const Canvas* canvas, const Color color, const Point start
     dy = -dy;
   }
 
-  Color* buffer = canvas->pixels + start.x + start.y * canvas->width;
+  Color* pixels = pixel_offset(canvas, start);
 
   if (dx > dy) {
     correction = dy2 - dx;
 
     for (int ix = 0; ix <= dx; ++ix) {
-      *buffer = color;
+      *pixels = color;
 
       if (correction >= 0) {
         correction -= dx2;
-        buffer += y_step;
+        pixels += y_step;
       }
 
       correction += dy2;
-      buffer += x_step;
+      pixels += x_step;
     }
   }
   else {
     correction = dx2 - dy;
 
     for (int ix = 0; ix <= dy; ++ix) {
-      *buffer = color;
+      *pixels = color;
 
       if (correction >= 0) {
         correction -= dy2;
-        buffer += x_step;
+        pixels += x_step;
       }
 
       correction += dx2;
-      buffer += y_step;
+      pixels += y_step;
     }
   }
 }
