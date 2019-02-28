@@ -5,7 +5,7 @@ CFLAGS = -O3 -Wall -Wextra -pedantic -std=c11 -g -I$(BUILD_DIR) -fsanitize=addre
 LDFLAGS = -lSDL2 -lSDL2_ttf
 
 
-gbr: $(BUILD_DIR)/screen.o $(BUILD_DIR)/canvas.o $(BUILD_DIR)/ticks.o src/main.c
+gbr: $(BUILD_DIR)/screen.o $(BUILD_DIR)/canvas.o $(BUILD_DIR)/ticks.o $(BUILD_DIR)/obj_loader.o src/main.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 $(BUILD_DIR)/%.o: src/%.h src/%.c | $(BUILD_DIR)
