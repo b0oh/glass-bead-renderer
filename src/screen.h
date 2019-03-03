@@ -1,5 +1,4 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#pragma once
 
 #include <inttypes.h>
 #include "canvas.h"
@@ -13,5 +12,3 @@ void screen_draw_canvas(Screen* screen);
 void screen_draw_text(Screen* screen, const char* text, Color color, Point point);
 void screen_present(Screen* screen);
 void screen_destroy(Screen* screen);
-
-#endif

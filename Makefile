@@ -14,6 +14,9 @@ $(BUILD_DIR)/%.o: src/%.h src/%.c | $(BUILD_DIR)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
+run:
+	./gbr
+
 clean:
 	rm -rf $(BUILD_DIR)/*
 	rm gbr

@@ -67,7 +67,7 @@ int main() {
   printf("Amount of triangles: %zu\n", mesh.triangle_number);
 
   while (!is_done()) {
-    canvas_clear(canvas, background);
+    canvas_fill(canvas, background);
     wire_rasterizer(canvas, &mesh);
     screen_draw_canvas(screen);
 

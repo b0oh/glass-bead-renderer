@@ -16,7 +16,7 @@ Canvas* canvas_create(int16_t width, int16_t height) {
   return canvas;
 }
 
-void canvas_clear(Canvas* canvas, Color color) {
+void canvas_fill(Canvas* canvas, Color color) {
   for (int ix = 0; ix < canvas->width * canvas->height; ++ix) {
     canvas->pixels[ix] = color;
   }
